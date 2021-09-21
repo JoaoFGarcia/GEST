@@ -189,7 +189,7 @@ procedure TformMain.LoadData();
 var
   Client: TClientFornecedor;
 begin
-  if not TGlobal.Controller.Connection.Connected then
+if not TGlobal.Controller.Connection.Connected then
     Exit;
 
   if not(cdsMain.Active) and (cdsMain.Fields.Count > 0) then

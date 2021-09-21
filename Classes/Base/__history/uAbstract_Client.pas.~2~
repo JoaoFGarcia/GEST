@@ -352,9 +352,6 @@ begin
   if FQueries.Fetch = EmptyStr then
     Exit;
 
-  if not FAuxQuery.Connection.Connected then
-    Exit;
-
   FAuxQuery.Close;
   FAuxQuery.SQL.Text := FQueries.Fetch + ' LIMIT 0';
   FAuxQuery.Open();

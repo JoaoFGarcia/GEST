@@ -3,7 +3,7 @@ unit uController;
 interface
 
 uses
-  FireDAC.Comp.Client, Classes, SysUtils, System.JSON;
+  FireDAC.Comp.Client, Classes, SysUtils, System.JSON, FireDAC.Phys.PGWrapper;
 
 type
   TController = class
@@ -13,7 +13,7 @@ type
     FUsername   : String;
     FPassword   : String;
     FDatabase   : String;
-
+    procedure ConnError(ASender: TObject; AInitiator: TObject; var AException: Exception);
   published
     property Connection : TFDConnection read FConnection write FConnection;
     property Hostname   : String        read FHostName   write FHostName;
@@ -40,11 +40,22 @@ begin
   FDatabase := Database;
 
   FConnection := TFDConnection.Create(nil);
+  FConnection.OnError := ConnError;
 end;
 
 destructor TController.Destroy;
 begin
   FreeAndNil(FConnection);
+end;
+
+procedure TController.ConnError(ASender: TObject; AInitiator: TObject; var AException: Exception);
+var
+  oExc: EPgNativeException;
+begin
+  if AException is EPgNativeException then begin
+    oExc := EPgNativeException(AException);
+    oExc.Message := 'Por favor no primeiro uso configure a conexão com o banco de dados!';
+  end;
 end;
 
 function TController.LoadConnection : String;
@@ -55,10 +66,13 @@ begin
     FConnection.Params.UserName := Username;
     FConnection.Params.Password := Password;
     FConnection.Params.Database := Database;
-    FConnection.Connected := True;
+    if (Database <> EmptyStr) and (Username <> EmptyStr) and (Hostname <> EmptyStr) then
+      FConnection.Connected := True;
   except
-    on e: exception do
+    on e: EPgNativeException do
+    begin
       Result := e.Message;
+    end;
   end;
 end;
 
