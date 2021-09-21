@@ -125,7 +125,11 @@
         </DCCReference>
         <DCCReference Include="Classes\Client\uClient_Estado.pas"/>
         <DCCReference Include="Classes\Model\uModel_Estado.pas"/>
-        <DCCReference Include="Classes\Validate.pas"/>
+        <DCCReference Include="Classes\uValidate.pas"/>
+        <DCCReference Include="Classes\View\uConsultarCNPJ.pas">
+            <Form>frmConsultarCNPJ</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="ModelSupport_GestaoFornecedores\default.txaPackage"/>
         <None Include="ModelSupport_GestaoFornecedores\default.txvpck"/>
         <None Include="ModelSupport_GestaoFornecedores\uMainForm\default.txvpck"/>
