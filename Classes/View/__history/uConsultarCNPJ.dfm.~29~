@@ -1,0 +1,81 @@
+object frmConsultarCNPJ: TfrmConsultarCNPJ
+  Left = 0
+  Top = 0
+  Caption = 'Consultar CNPJ'
+  ClientHeight = 102
+  ClientWidth = 288
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 101
+    Top = 18
+    Width = 85
+    Height = 13
+    Caption = 'CNPJ a consultar:'
+  end
+  object edtCGC: TMaskEdit
+    Left = 76
+    Top = 43
+    Width = 134
+    Height = 21
+    Alignment = taCenter
+    EditMask = '99.999.999/9999-99;1;_'
+    MaxLength = 18
+    TabOrder = 0
+    Text = '  .   .   /    -  '
+    OnKeyPress = edtCGCKeyPress
+  end
+  object btnConsultar: TButton
+    Left = 76
+    Top = 68
+    Width = 136
+    Height = 25
+    Caption = 'Consultar'
+    TabOrder = 1
+    OnClick = btnConsultarClick
+  end
+  object rstRequest: TRESTRequest
+    Client = rstClient
+    Method = rmPUT
+    Params = <
+      item
+        Name = 'cnpj'
+        Value = '1312312'
+      end>
+    Resource = 'cnpj/{cnpj}'
+    Response = rstResponse
+    Left = 224
+    Top = 24
+  end
+  object rstClient: TRESTClient
+    Accept = 
+      'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif' +
+      ',image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b' +
+      '3;q=0.9'
+    AcceptCharset = 'utf-8, *;q=0.8'
+    AcceptEncoding = 'Accept-Encoding: gzip, deflate'
+    BaseURL = 'http://www.receitaws.com.br/v1'
+    ContentType = 'application/x-www-form-urlencoded'
+    Params = <
+      item
+        Kind = pkURLSEGMENT
+      end>
+    SecureProtocols = [SSL2, SSL3, TLS1, TLS11, TLS12, TLS13]
+    Left = 32
+    Top = 40
+  end
+  object rstResponse: TRESTResponse
+    ContentType = 'text/html'
+    ContentEncoding = 'gzip'
+    Left = 40
+    Top = 8
+  end
+end

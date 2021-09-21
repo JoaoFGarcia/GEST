@@ -80,14 +80,19 @@ type
     dbeComplemento: TDBEdit;
     cdsMaincnpj: TStringField;
     cdsMaincep: TStringField;
+    btnConsultar: TBitBtn;
+    btnCopiar: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure dbeTelefoneEnter(Sender: TObject);
     procedure cdsMainemailValidate(Sender: TField);
     procedure cdsMaintelefoneChange(Sender: TField);
     procedure btnSaveClick(Sender: TObject);
+    procedure btnConsultarClick(Sender: TObject);
+    procedure btnCopiarClick(Sender: TObject);
   private
     gFornecedor : TClientFornecedor;
+    rRotine     : TRotine;
   public
     { Public declarations }
   end;
@@ -96,12 +101,13 @@ var
   frmCadFornecedor: TfrmCadFornecedor;
 
   function Execute(Rotina : TRotine; ID : Integer = 0) : Boolean;
+  function Query(out Model : TModelFornecedor) : Boolean;
 
 implementation
 
 uses
   uClient_CNAE,
-  uClient_Estado;
+  uClient_Estado, uConsultarCNPJ;
 
 {$R *.dfm}
 
@@ -112,15 +118,16 @@ begin
   try
     with frmCadFornecedor do
     begin
-      if Rotina = rtEdit then
+      if (Rotina = rtEdit) then
       begin
+        rRotine := Rotina;
         gFornecedor.LoadData(['ID'], [IntToStr(ID)]);
         gFornecedor.ToClientDataSet(cdsMain);
         dteSituacao.Date                 := gFornecedor.Model.DATA_SITUACAO;
         cboUF.ItemIndex                  := cboUF.ITEMS.IndexOf(gFornecedor.Model.UF);
         cboAtividadePrincipal.ItemIndex  := cboAtividadePrincipal.ITEMS.IndexOf(IntToStr(gFornecedor.Model.ATIVIDADE_PRINCIPAL));
         cdsMain.Edit;
-      end else
+      end else if (Rotina = rtInsert) then
       begin
         cdsMain.Append;
         dteSituacao.Date := Date();
@@ -133,9 +140,68 @@ begin
   end;
 end;
 
+function Query(out Model : TModelFornecedor) : Boolean;
+begin
+  frmCadFornecedor             := TfrmCadFornecedor.Create(nil);
+  frmCadFornecedor.gFornecedor := TClientFornecedor.Create;
+  try
+    with frmCadFornecedor do
+    begin
+      gFornecedor.Models.Add(Model);
+      gFornecedor.Last;
+      gFornecedor.ToClientDataSet(cdsMain);
+
+      dteSituacao.Date                 := gFornecedor.Model.DATA_SITUACAO;
+      cboUF.ItemIndex                  := cboUF.ITEMS.IndexOf(gFornecedor.Model.UF);
+      cboAtividadePrincipal.ItemIndex  := cboAtividadePrincipal.ITEMS.IndexOf(IntToStr(gFornecedor.Model.ATIVIDADE_PRINCIPAL));
+
+      cdsMain.Edit;
+      cdsMain.FieldByName('Atividade_Principal').AsInteger := StrToInt(cboAtividadePrincipal.Text);
+      cdsMain.FieldByName('NATUREZA_JURIDICA').AsString   := (dbeNatureza.Text);
+      cdsMain.FieldByName('UF').AsString                  := (cboUF.Text);
+      cdsMain.FieldByName('DATA_SITUACAO').AsDateTime     := dteSituacao.Date;
+      cdsMain.Post;
+
+      btnSave.Visible      := False;
+      btnConsultar.Visible := False;
+      btnCopiar.Visible    := True;
+
+      Result := ShowModal = mrOk;
+    end;
+  finally
+    FreeAndNil(frmCadFornecedor);
+  end;
+end;
+
 procedure TfrmCadFornecedor.btnCancelClick(Sender: TObject);
 begin
+  ModalResult := mrCancel;
   Self.Close;
+end;
+
+procedure TfrmCadFornecedor.btnConsultarClick(Sender: TObject);
+var
+  Model : TModelFornecedor;
+begin
+  if uConsultarCNPJ.Execute(Model) then
+  begin
+    gFornecedor.Models.Clear;
+    gFornecedor.Models.Add(Model);
+    gFornecedor.Last;
+    cdsMain.EmptyDataSet;
+    gFornecedor.ToClientDataSet(cdsMain);
+
+    cdsMain.Edit;
+
+    dteSituacao.Date                 := gFornecedor.Model.DATA_SITUACAO;
+    cboUF.ItemIndex                  := cboUF.ITEMS.IndexOf(gFornecedor.Model.UF);
+    cboAtividadePrincipal.ItemIndex  := cboAtividadePrincipal.ITEMS.IndexOf(IntToStr(gFornecedor.Model.ATIVIDADE_PRINCIPAL));
+  end;
+end;
+
+procedure TfrmCadFornecedor.btnCopiarClick(Sender: TObject);
+begin
+  ModalResult := mrOk;
 end;
 
 procedure TfrmCadFornecedor.btnSaveClick(Sender: TObject);
@@ -168,14 +234,14 @@ begin
   gFornecedor.Model.TELEFONE            := cdsMain.FieldByName('TELEFONE').AsString;
   gFornecedor.Model.UF            := cdsMain.FieldByName('UF').AsString;
 
-  if cdsMain.State in [dsInsert] then
+  if rRotine in [rtInsert] then
   begin
     if not gFornecedor.Insert then
     begin
       raise Exception.Create(gFornecedor.Errors[gFornecedor.Errors.Count -1])
     end;
   end
-  else if cdsMain.State in [dsEdit] then
+  else if rRotine in [rtEdit] then
   begin
     if not gFornecedor.Update then
       raise Exception.Create(gFornecedor.Errors[gFornecedor.Errors.Count -1]);

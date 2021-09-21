@@ -16,7 +16,8 @@ uses
   uCadFornecedor in 'Classes\View\uCadFornecedor.pas' {frmCadFornecedor},
   uClient_Estado in 'Classes\Client\uClient_Estado.pas',
   uModel_Estado in 'Classes\Model\uModel_Estado.pas',
-  Validate in 'Classes\Validate.pas';
+  uValidate in 'Classes\uValidate.pas',
+  uConsultarCNPJ in 'Classes\View\uConsultarCNPJ.pas' {frmConsultarCNPJ};
 
 {$R *.res}
 
@@ -29,5 +30,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.Title := 'GEST - Gestão de Fornecedores';
   Application.CreateForm(TformMain, formMain);
+  Application.CreateForm(TfrmConsultarCNPJ, frmConsultarCNPJ);
   Application.Run;
 end.

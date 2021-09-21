@@ -44,7 +44,7 @@ type
   published
     [TDBField('Código', [dbKey])]
     property ID: Integer read FID write FID;
-    [TDBField('Atividade Principal', [dbUpdate, dbForeignWhere], True, 'ATV', 'CNAE', '', 'ID')]
+    [TDBField('Atividade Principal', [dbUpdate, dbForeignWhere], True, 'ATV', 'CNAE', '', 'CODIGO_CNAE')]
     property ATIVIDADE_PRINCIPAL: Integer read FATIVIDADE_PRINCIPAL write FATIVIDADE_PRINCIPAL;
     [TDBField('Descrição Atividade Principal', [dbForeign], True, 'ATV', 'CNAE', '', 'DESCRICAO')]
     property DESCATIVIDADE_PRINCIPAL: String read FDESCATIVIDADE_PRINCIPAL write FDESCATIVIDADE_PRINCIPAL;

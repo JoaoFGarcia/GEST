@@ -19,6 +19,9 @@ type
 
 implementation
 
+uses
+  uValidate;
+
 { TClientFornecedor }
 
 function TClientFornecedor.ExecuteBeforeSave: Boolean;
@@ -49,6 +52,12 @@ begin
     finally
       FreeAndNil(vClientFornecedor);
     end;
+  end;
+
+  if not isCNPJ(rRegex.Replace(Self.Model.CNPJ, '\D', '')) then
+  begin
+    Self.Errors.Add('CNPJ ' + Self.Model.CNPJ + ' inválido!');
+    Exit;
   end;
 
   if Self.Model.EMAIL <> '' then
