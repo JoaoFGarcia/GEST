@@ -1,0 +1,16 @@
+unit uUtils;
+
+interface
+
+uses
+  uController;
+
+type
+  TGlobal = class
+    class var
+      Controller : TController;
+  end;
+
+
+
+end.
