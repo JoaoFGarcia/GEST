@@ -352,9 +352,6 @@ begin
   if FQueries.Fetch = EmptyStr then
     Exit;
 
-  if not FAuxQuery.Connection.Connected then
-    Exit;
-
   FAuxQuery.Close;
   FAuxQuery.SQL.Text := FQueries.Fetch + ' LIMIT 0';
   FAuxQuery.Open();
@@ -467,6 +464,9 @@ begin
     FQueries.Insert := 'INSERT INTO ' + TTable(rtType.GetAttributes[0]).Name + '(' + FQueries.Insert + ') VALUES(' + sValues + ')';
     FQueries.Update := 'UPDATE ' + TTable(rtType.GetAttributes[0]).Name + ' SET ' + FQueries.Update;
     FQueries.Delete := 'DELETE FROM ' + TTable(rtType.GetAttributes[0]).Name + '';
+    FMainQuery.SQL.Text := FQueries.Fetch;
+    FMainQuery.SQL.SaveToFile('C:\teste.sql');
+
     LoadFields;
   finally
     rtContext.Free;

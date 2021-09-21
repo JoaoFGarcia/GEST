@@ -55,8 +55,8 @@
     <Transaction>2021/09/20 23:03:16.000.651,=C:\Users\Joao Garcia\Desktop\Projeto\Unit1.pas</Transaction>
     <Transaction>2021/09/20 23:05:51.000.702,=C:\Users\Joao Garcia\Desktop\Projeto\Unit2.pas</Transaction>
     <Transaction>2021/09/20 23:08:06.000.348,C:\Users\Joao Garcia\Desktop\Projeto\Unit2.pas=C:\Users\Joao Garcia\Desktop\Projeto\Classes\Validate.pas</Transaction>
-    <Transaction>2021/09/21 00:42:17.262,=C:\Users\Joao Garcia\Desktop\GEST\Classes\View\uConsultarCNPJ.pas</Transaction>
-    <Transaction>2021/09/21 00:42:38.595,C:\Users\Joao Garcia\Desktop\GEST\Classes\uValidate.pas=C:\Users\Joao Garcia\Desktop\GEST\Classes\Validate.pas</Transaction>
+    <Transaction>2021/09/21 00:42:17.000.262,=C:\Users\Joao Garcia\Desktop\GEST\Classes\View\uConsultarCNPJ.pas</Transaction>
+    <Transaction>2021/09/21 00:42:38.000.595,C:\Users\Joao Garcia\Desktop\GEST\Classes\uValidate.pas=C:\Users\Joao Garcia\Desktop\GEST\Classes\Validate.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
     <File Path="Classes"/>

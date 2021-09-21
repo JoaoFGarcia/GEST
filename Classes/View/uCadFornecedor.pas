@@ -90,6 +90,7 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure btnConsultarClick(Sender: TObject);
     procedure btnCopiarClick(Sender: TObject);
+    procedure cboAtividadePrincipalChange(Sender: TObject);
   private
     gFornecedor : TClientFornecedor;
     rRotine     : TRotine;
@@ -130,8 +131,13 @@ begin
       end else if (Rotina = rtInsert) then
       begin
         cdsMain.Append;
-        dteSituacao.Date := Date();
+        dteSituacao.Date                := Date();
+        cboTipo.ItemIndex               := 0;
+        cboAtividadePrincipal.ItemIndex := 0;
+        dbeNatureza.ItemIndex           := 0;
       end;
+
+      cboAtividadePrincipalChange(nil);
 
       Result := ShowModal = mrOk;
     end;
@@ -248,6 +254,22 @@ begin
   end;
 
   ModalResult := mrOk;
+end;
+
+procedure TfrmCadFornecedor.cboAtividadePrincipalChange(Sender: TObject);
+var
+  vClientCNAE : TClientCNAE;
+begin
+  if cboAtividadePrincipal.ItemIndex = -1 then
+    Exit;
+
+  vClientCNAE := TClientCNAE.Create;
+  try
+    if vClientCNAE.LoadData(['CODIGO_CNAE'], [cboAtividadePrincipal.Text]) then
+      edtDescCNAE.Text := (vClientCNAE.Model.DESCRICAO);
+  finally
+    FreeAndNil(vClientCNAE);
+  end;
 end;
 
 procedure TfrmCadFornecedor.cdsMainemailValidate(Sender: TField);

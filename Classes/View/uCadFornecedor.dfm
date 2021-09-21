@@ -478,6 +478,7 @@ object frmCadFornecedor: TfrmCadFornecedor
       Height = 21
       Style = csDropDownList
       TabOrder = 3
+      OnChange = cboAtividadePrincipalChange
     end
     object cboTipo: TDBComboBox
       Left = 263

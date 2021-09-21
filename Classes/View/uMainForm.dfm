@@ -300,6 +300,7 @@ object formMain: TformMain
               Expanded = False
               FieldName = 'uf_descricao'
               Title.Alignment = taCenter
+              Width = 200
               Visible = True
             end
             item
@@ -2070,6 +2071,7 @@ object formMain: TformMain
       Size = 2
     end
     object cdsMainuf_descricao: TWideStringField
+      Alignment = taCenter
       AutoGenerateValue = arDefault
       DisplayLabel = 'Descri'#231#227'o'
       FieldName = 'uf_descricao'
