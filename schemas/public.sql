@@ -17,19 +17,10 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
-DROP DATABASE "GEST";
 --
 -- TOC entry 3023 (class 1262 OID 16533)
 -- Name: GEST; Type: DATABASE; Schema: -; Owner: postgres
 --
-
-CREATE DATABASE "GEST" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'Portuguese_Brazil.1252';
-
-
-ALTER DATABASE "GEST" OWNER TO postgres;
-
-\connect "GEST"
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;

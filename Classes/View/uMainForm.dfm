@@ -229,7 +229,7 @@ object formMain: TformMain
           Height = 358
           Align = alClient
           DataSource = dsMain
-          Options = [dgTitles, dgIndicator, dgColumnResize, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
           TabOrder = 0
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
@@ -2032,6 +2032,7 @@ object formMain: TformMain
       EditFormat = '!9999-9/9;0;'
     end
     object cdsMaindescatividade_principal: TWideStringField
+      Alignment = taCenter
       AutoGenerateValue = arDefault
       DisplayLabel = 'Descri'#231#227'o'
       FieldName = 'descatividade_principal'

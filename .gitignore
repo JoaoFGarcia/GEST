@@ -1,0 +1,34 @@
+*.exe
+*.dll
+*.bpl
+*.bpi
+*.dcp
+*.so
+*.apk
+*.drc
+*.map
+*.dres
+*.rsm
+*.tds
+*.dcu
+*.lib
+*.a
+*.o
+*.ocx
+
+*.cfg
+*.hpp
+*Resource.rc
+*.local
+*.identcache
+*.projdata
+*.tvsconfig
+*.dsk
+
+# Delphi history and backups
+__history/
+__recovery/
+*.~*
+
+# Castalia statistics file (since XE7 Castalia is distributed with Delphi)
+*.stat

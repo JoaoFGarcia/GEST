@@ -3,7 +3,7 @@ object frmCadFornecedor: TfrmCadFornecedor
   Top = 0
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'Cadastro de Fornecedor'
-  ClientHeight = 443
+  ClientHeight = 588
   ClientWidth = 678
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -108,7 +108,7 @@ object frmCadFornecedor: TfrmCadFornecedor
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Top = 241
+    Top = 280
     Width = 678
     Height = 117
     Align = alTop
@@ -230,7 +230,7 @@ object frmCadFornecedor: TfrmCadFornecedor
     Left = 0
     Top = 73
     Width = 678
-    Height = 168
+    Height = 207
     Align = alTop
     Caption = 'Detalhes'
     TabOrder = 1
@@ -283,6 +283,13 @@ object frmCadFornecedor: TfrmCadFornecedor
       Height = 13
       Caption = 'Natureza jur'#237'dica'
     end
+    object Label17: TLabel
+      Left = 8
+      Top = 155
+      Width = 63
+      Height = 13
+      Caption = 'Capital Social'
+    end
     object dbeNome: TDBEdit
       Left = 8
       Top = 34
@@ -330,7 +337,7 @@ object frmCadFornecedor: TfrmCadFornecedor
       Time = 0.732127395836869300
       TabOrder = 7
     end
-    object DBRadioGroup1: TDBRadioGroup
+    object dbrSituacao: TDBRadioGroup
       Left = 407
       Top = 61
       Width = 128
@@ -466,9 +473,7 @@ object frmCadFornecedor: TfrmCadFornecedor
         '412-0 - Produtor Rural (Pessoa F'#237'sica)'
         '501-0 - Organiza'#231#227'o Internacional'
         '502-9 - Representa'#231#227'o Diplom'#225'tica Estrangeira'
-        '503-7 - Outras Institui'#231#245'es Extraterritoriais'
-        ''
-        ' ')
+        '503-7 - Outras Institui'#231#245'es Extraterritoriais')
       TabOrder = 8
     end
     object cboAtividadePrincipal: TComboBox
@@ -493,10 +498,19 @@ object frmCadFornecedor: TfrmCadFornecedor
         'FILIAL')
       TabOrder = 5
     end
+    object dbeCapitalSocial: TDBEdit
+      Left = 8
+      Top = 174
+      Width = 121
+      Height = 21
+      DataField = 'capital_social'
+      DataSource = dsMain
+      TabOrder = 9
+    end
   end
   object GroupBox3: TGroupBox
     Left = 0
-    Top = 358
+    Top = 397
     Width = 678
     Height = 80
     Align = alTop
@@ -534,6 +548,75 @@ object frmCadFornecedor: TfrmCadFornecedor
       DataSource = dsMain
       TabOrder = 1
       OnEnter = dbeTelefoneEnter
+    end
+  end
+  object GroupBox4: TGroupBox
+    Left = 0
+    Top = 477
+    Width = 678
+    Height = 108
+    Align = alTop
+    Caption = 'Situa'#231#227'o Especial'
+    TabOrder = 4
+    object Label18: TLabel
+      Left = 8
+      Top = 16
+      Width = 20
+      Height = 13
+      Caption = 'Tipo'
+    end
+    object Label19: TLabel
+      Left = 8
+      Top = 58
+      Width = 46
+      Height = 13
+      Caption = 'Descri'#231#227'o'
+    end
+    object Label20: TLabel
+      Left = 544
+      Top = 56
+      Width = 67
+      Height = 13
+      Caption = 'Data Situa'#231#227'o'
+    end
+    object dbSituacaoEspecial: TDBComboBox
+      Left = 8
+      Top = 35
+      Width = 653
+      Height = 21
+      Style = csDropDownList
+      DataField = 'situacao_especial'
+      DataSource = dsMain
+      Items.Strings = (
+        '1 - Extin'#231#227'o'
+        '2 - Fus'#227'o'
+        '3 - Incorpora'#231#227'o/Incorporada'
+        '4 - Incorpora'#231#227'o/Incorporadora'
+        '5 - Cis'#227'o Total'
+        '6 - Cis'#227'o Parcial'
+        '7 - Transforma'#231#227'o'
+        '8 - Desenquadramento de Imune/Isenta'
+        '9 - Inclus'#227'o no Simples Nacional')
+      TabOrder = 0
+    end
+    object dbeMotivoEsp: TDBEdit
+      Left = 8
+      Top = 72
+      Width = 527
+      Height = 21
+      CharCase = ecUpperCase
+      DataField = 'motivo_situacaoesp'
+      DataSource = dsMain
+      TabOrder = 1
+    end
+    object dteMotivoEsp: TDateTimePicker
+      Left = 544
+      Top = 72
+      Width = 120
+      Height = 21
+      Date = 44459.000000000000000000
+      Time = 0.732127395836869300
+      TabOrder = 2
     end
   end
   object imgBtns: TImageList
@@ -2289,6 +2372,7 @@ object frmCadFornecedor: TfrmCadFornecedor
       DisplayLabel = 'Capital Social'
       FieldName = 'capital_social'
       Origin = 'capital_social'
+      currency = True
       Precision = 64
       Size = 0
     end

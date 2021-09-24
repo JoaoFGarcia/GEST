@@ -6,7 +6,8 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, System.ImageList, Vcl.ImgList, Vcl.Mask, Vcl.DBCtrls, Data.DB, Datasnap.DBClient, Vcl.ComCtrls, uClient_Fornecedor,
   uGlobal, System.RegularExpressions,
-  uModel_Fornecedor;
+  uModel_Fornecedor,
+  System.MaskUtils;
 
 type
   TfrmCadFornecedor = class(TForm)
@@ -59,7 +60,7 @@ type
     Label8: TLabel;
     Label9: TLabel;
     dteSituacao: TDateTimePicker;
-    DBRadioGroup1: TDBRadioGroup;
+    dbrSituacao: TDBRadioGroup;
     Label10: TLabel;
     dbeBairro: TDBEdit;
     Label11: TLabel;
@@ -82,6 +83,15 @@ type
     cdsMaincep: TStringField;
     btnConsultar: TBitBtn;
     btnCopiar: TBitBtn;
+    Label17: TLabel;
+    dbeCapitalSocial: TDBEdit;
+    GroupBox4: TGroupBox;
+    Label18: TLabel;
+    dbSituacaoEspecial: TDBComboBox;
+    Label19: TLabel;
+    dbeMotivoEsp: TDBEdit;
+    dteMotivoEsp: TDateTimePicker;
+    Label20: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btnCancelClick(Sender: TObject);
     procedure dbeTelefoneEnter(Sender: TObject);
@@ -125,12 +135,15 @@ begin
         gFornecedor.LoadData(['ID'], [IntToStr(ID)]);
         gFornecedor.ToClientDataSet(cdsMain);
         dteSituacao.Date                 := gFornecedor.Model.DATA_SITUACAO;
+        dteMotivoEsp.Date                := gFornecedor.Model.DATA_SITUACAOESP;
         cboUF.ItemIndex                  := cboUF.ITEMS.IndexOf(gFornecedor.Model.UF);
-        cboAtividadePrincipal.ItemIndex  := cboAtividadePrincipal.ITEMS.IndexOf(IntToStr(gFornecedor.Model.ATIVIDADE_PRINCIPAL));
+        cboAtividadePrincipal.ItemIndex  := cboAtividadePrincipal.ITEMS.IndexOf(FormatMaskText('9999\-9/99;0;_', Format('%7.7d', [gFornecedor.Model.ATIVIDADE_PRINCIPAL])));
         cdsMain.Edit;
       end else if (Rotina = rtInsert) then
       begin
         cdsMain.Append;
+        cdsMain.FieldByName('TIPO').AsString     := 'MATRIZ';
+        cdsMain.FieldByName('SITUACAO').AsString := 'ATIVA';
         dteSituacao.Date                := Date();
         cboTipo.ItemIndex               := 0;
         cboAtividadePrincipal.ItemIndex := 0;
@@ -211,23 +224,27 @@ begin
 end;
 
 procedure TfrmCadFornecedor.btnSaveClick(Sender: TObject);
+var
+  rRegex : TRegex;
 begin
+  gFornecedor.Models.Clear;
   if cdsMain.State in [dsInsert] then
     gFornecedor.Models.Add(TModelFornecedor.Create);
 
   gFornecedor.Last;
 
-  cdsMain.FieldByName('Atividade_Principal').AsInteger := StrToInt(cboAtividadePrincipal.Text);
-  cdsMain.FieldByName('NATUREZA_JURIDICA').AsString   := (dbeNatureza.Text);
-  cdsMain.FieldByName('UF').AsString                  := (cboUF.Text);
-  cdsMain.FieldByName('DATA_SITUACAO').AsDateTime     := dteSituacao.Date;
+  cdsMain.FieldByName('ATIVIDADE_PRINCIPAL').AsInteger := StrToInt(rRegex.Replace(cboAtividadePrincipal.Text, '\D', ''));
+  cdsMain.FieldByName('NATUREZA_JURIDICA').AsString    := (dbeNatureza.Text);
+  cdsMain.FieldByName('UF').AsString                   := (cboUF.Text);
+  cdsMain.FieldByName('DATA_SITUACAO').AsDateTime      := dteSituacao.Date;
+  cdsMain.FieldByName('DATA_SITUACAOESP').AsDateTime   := dteMotivoEsp.Date;
 
-  gFornecedor.Model.Nome                := cdsMain.FieldByName('nome').AsString;
+  gFornecedor.Model.Nome                := cdsMain.FieldByName('NOME').AsString;
   gFornecedor.Model.TIPO                := cdsMain.FieldByName('TIPO').AsString;
-  gFornecedor.Model.Nome_Fantasia       := cdsMain.FieldByName('Nome_Fantasia').AsString;
+  gFornecedor.Model.Nome_Fantasia       := cdsMain.FieldByName('NOME_FANTASIA').AsString;
   gFornecedor.Model.CNPJ                := cdsMain.FieldByName('CNPJ').AsString;
-  gFornecedor.Model.Atividade_Principal := cdsMain.FieldByName('Atividade_Principal').AsInteger;
-  gFornecedor.Model.SITUACAO            := cdsMain.FieldByName('situacao').AsString;
+  gFornecedor.Model.Atividade_Principal := cdsMain.FieldByName('ATIVIDADE_PRINCIPAL').AsInteger;
+  gFornecedor.Model.SITUACAO            := cdsMain.FieldByName('SITUACAO').AsString;
   gFornecedor.Model.DATA_SITUACAO       := cdsMain.FieldByName('DATA_SITUACAO').AsDateTime;
   gFornecedor.Model.NATUREZA_JURIDICA   := cdsMain.FieldByName('NATUREZA_JURIDICA').AsString;
   gFornecedor.Model.LOGRADOURO          := cdsMain.FieldByName('LOGRADOURO').AsString;
@@ -238,7 +255,11 @@ begin
   gFornecedor.Model.MUNICIPIO           := cdsMain.FieldByName('MUNICIPIO').AsString;
   gFornecedor.Model.EMAIL               := cdsMain.FieldByName('EMAIL').AsString;
   gFornecedor.Model.TELEFONE            := cdsMain.FieldByName('TELEFONE').AsString;
-  gFornecedor.Model.UF            := cdsMain.FieldByName('UF').AsString;
+  gFornecedor.Model.UF                  := cdsMain.FieldByName('UF').AsString;
+  gFornecedor.Model.CAPITAL_SOCIAL      := cdsMain.FieldByName('CAPITAL_SOCIAL').AsFloat;
+  gFornecedor.Model.SITUACAO_ESPECIAL   := cdsMain.FieldByName('SITUACAO_ESPECIAL').AsString;
+  gFornecedor.Model.MOTIVO_SITUACAOESP  := cdsMain.FieldByName('MOTIVO_SITUACAOESP').AsString;
+  gFornecedor.Model.DATA_SITUACAOESP    := cdsMain.FieldByName('DATA_SITUACAOESP').AsDateTime;
 
   if rRotine in [rtInsert] then
   begin
@@ -259,13 +280,15 @@ end;
 procedure TfrmCadFornecedor.cboAtividadePrincipalChange(Sender: TObject);
 var
   vClientCNAE : TClientCNAE;
+  rRegex      : TRegex;
+  bRet        : Boolean;
 begin
   if cboAtividadePrincipal.ItemIndex = -1 then
     Exit;
 
   vClientCNAE := TClientCNAE.Create;
   try
-    if vClientCNAE.LoadData(['CODIGO_CNAE'], [cboAtividadePrincipal.Text]) then
+    if vClientCNAE.LoadData(['CODIGO_CNAE'], [rRegex.Replace(cboAtividadePrincipal.Text, '\D', '')]) then
       edtDescCNAE.Text := (vClientCNAE.Model.DESCRICAO);
   finally
     FreeAndNil(vClientCNAE);
@@ -316,7 +339,7 @@ begin
     CNAE.First;
     while not (CNAE.EoF) do
     begin
-      cboAtividadePrincipal.Items.Add(IntToStr(CNAE.Model.CODIGO_CNAE));
+      cboAtividadePrincipal.Items.Add(FormatMaskText('9999\-9/99;0;_', Format('%7.7d', [(CNAE.Model.CODIGO_CNAE)])));
       CNAE.Next;
     end;
 

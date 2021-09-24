@@ -109,6 +109,7 @@ begin
     FreeAndNil(frmConfig);
   end;
   TGlobal.Controller.LoadConnection;
+  LoadData;
   SetButtons();
 end;
 

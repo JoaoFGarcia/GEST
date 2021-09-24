@@ -37,8 +37,9 @@ var
 
   vClientFornecedor : TClientFornecedor;
 begin
-  inherited;
   Result := False;
+  if not inherited then
+    Exit;
 
   if Rotine = rtInsert then
   begin

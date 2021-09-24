@@ -39,7 +39,7 @@ type
     FENTE_FEDERATIVO: String;
     FSITUACAO_ESPECIAL: String;
     FMOTIVO_SITUACAOESP: String;
-    FDATA_SITUACAOESP: String;
+    FDATA_SITUACAOESP: TDateTime;
     FCAPITAL_SOCIAL: Double;
   published
     [TDBField('Código', [dbKey])]
@@ -52,7 +52,7 @@ type
     property DATA_SITUACAO: TDateTime read FDATA_SITUACAO write FDATA_SITUACAO;
     [TDBField('Tipo', [ dbUpdate])]
     property TIPO: String read FTIPO write FTIPO;
-    [TDBField('Nome', [ dbUpdate])]
+    [TDBField('Nome', [ dbUpdate], False)]
     property NOME: String read FNOME write FNOME;
     [TDBField('Nome fantasia', [ dbUpdate])]
     property NOME_FANTASIA: String read FNOME_FANTASIA write FNOME_FANTASIA;
@@ -64,7 +64,7 @@ type
     property TELEFONE: String read FTELEFONE write FTELEFONE;
     [TDBField('E-mail', [ dbUpdate])]
     property EMAIL: String read FEMAIL write FEMAIL;
-    [TDBField('Quadro de sócios e administradores', [ dbForeignList])]
+    [TDBField('Quadro de sócios e administradores', [ dbForeignList ])]
     property QSAS: TObjectList<TModelQSA> read FQSAS write FQSAS;
     [TDBField('Situação', [ dbUpdate])]
     property SITUACAO: String read FSITUACAO write FSITUACAO;
@@ -95,7 +95,7 @@ type
     [TDBField('Motivo Situação Especial', [ dbUpdate])]
     property MOTIVO_SITUACAOESP: String read FMOTIVO_SITUACAOESP write FMOTIVO_SITUACAOESP;
     [TDBField('Data Situação Especial', [ dbUpdate])]
-    property DATA_SITUACAOESP: String read FDATA_SITUACAOESP write FDATA_SITUACAOESP;
+    property DATA_SITUACAOESP: TDateTime read FDATA_SITUACAOESP write FDATA_SITUACAOESP;
     [TDBField('Capital Social', [ dbUpdate])]
     property CAPITAL_SOCIAL: Double read FCAPITAL_SOCIAL write FCAPITAL_SOCIAL;
   public
