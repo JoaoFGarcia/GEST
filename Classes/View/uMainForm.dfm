@@ -2,8 +2,8 @@ object formMain: TformMain
   Left = 0
   Top = 0
   Caption = 'Gest'#227'o de Fornecedores'
-  ClientHeight = 514
-  ClientWidth = 1100
+  ClientHeight = 379
+  ClientWidth = 882
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object formMain: TformMain
   object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 1100
+    Width = 882
     Height = 73
     Margins.Left = 0
     Margins.Right = 0
@@ -95,7 +95,7 @@ object formMain: TformMain
       OnClick = btnDeleteClick
     end
     object btnClose: TBitBtn
-      Left = 1018
+      Left = 800
       Top = 1
       Width = 81
       Height = 71
@@ -114,7 +114,7 @@ object formMain: TformMain
       OnClick = btnCloseClick
     end
     object btnDefinitions: TBitBtn
-      Left = 910
+      Left = 692
       Top = 1
       Width = 108
       Height = 71
@@ -155,18 +155,19 @@ object formMain: TformMain
   object PageControl1: TPageControl
     Left = 0
     Top = 73
-    Width = 1100
-    Height = 441
+    Width = 882
+    Height = 306
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
+    ExplicitHeight = 281
     object TabSheet1: TTabSheet
       BorderWidth = 5
       Caption = 'Consulta de Fornecedores'
       object pnlSearch: TPanel
         Left = 0
         Top = 0
-        Width = 1082
+        Width = 864
         Height = 41
         Align = alTop
         BevelOuter = bvNone
@@ -176,10 +177,10 @@ object formMain: TformMain
         ShowCaption = False
         TabOrder = 0
         DesignSize = (
-          1082
+          864
           41)
         object btnSearch: TBitBtn
-          Left = 962
+          Left = 744
           Top = 3
           Width = 107
           Height = 33
@@ -207,7 +208,7 @@ object formMain: TformMain
         object edtSearchValue: TEdit
           Left = 165
           Top = 9
-          Width = 789
+          Width = 571
           Height = 23
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 2
@@ -217,16 +218,17 @@ object formMain: TformMain
       object Panel1: TPanel
         Left = 0
         Top = 41
-        Width = 1082
-        Height = 360
+        Width = 864
+        Height = 225
         Align = alClient
         Caption = 'Panel1'
         TabOrder = 1
+        ExplicitHeight = 200
         object dbgMain: TDBGrid
           Left = 1
           Top = 1
-          Width = 1080
-          Height = 358
+          Width = 862
+          Height = 223
           Align = alClient
           DataSource = dsMain
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
@@ -2200,7 +2202,7 @@ object formMain: TformMain
   object dsMain: TDataSource
     DataSet = cdsMain
     OnStateChange = dsMainStateChange
-    Left = 492
+    Left = 500
     Top = 259
   end
 end

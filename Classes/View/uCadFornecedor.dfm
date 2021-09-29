@@ -2222,13 +2222,13 @@ object frmCadFornecedor: TfrmCadFornecedor
     AutoEdit = False
     DataSet = cdsMain
     Left = 416
-    Top = 320
+    Top = 216
   end
   object cdsMain: TClientDataSet
     Aggregates = <>
     Params = <>
     Left = 384
-    Top = 320
+    Top = 216
     object cdsMainid: TIntegerField
       DisplayLabel = 'ID'
       FieldName = 'id'

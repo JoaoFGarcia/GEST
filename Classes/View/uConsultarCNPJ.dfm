@@ -56,11 +56,16 @@ object frmConsultarCNPJ: TfrmConsultarCNPJ
     AcceptCharset = 'utf-8, *;q=0.8'
     AcceptEncoding = ''
     Client = rstClient
-    Params = <>
+    Params = <
+      item
+        Kind = pkURLSEGMENT
+        Name = 'cnpj'
+        Options = [poAutoCreated]
+      end>
     Resource = 'cnpj/{cnpj}'
     Response = rstResponse
-    Left = 224
-    Top = 24
+    Left = 32
+    Top = 8
   end
   object rstClient: TRESTClient
     Accept = 
@@ -80,7 +85,7 @@ object frmConsultarCNPJ: TfrmConsultarCNPJ
   end
   object rstResponse: TRESTResponse
     ContentType = 'application/json'
-    Left = 40
+    Left = 176
     Top = 8
   end
 end

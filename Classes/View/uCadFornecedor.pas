@@ -160,6 +160,8 @@ begin
 end;
 
 function Query(out Model : TModelFornecedor) : Boolean;
+var
+  rRegex      : TRegex;
 begin
   frmCadFornecedor             := TfrmCadFornecedor.Create(nil);
   frmCadFornecedor.gFornecedor := TClientFornecedor.Create;
@@ -170,16 +172,19 @@ begin
       gFornecedor.Last;
       gFornecedor.ToClientDataSet(cdsMain);
 
-      dteSituacao.Date                 := gFornecedor.Model.DATA_SITUACAO;
-      cboUF.ItemIndex                  := cboUF.ITEMS.IndexOf(gFornecedor.Model.UF);
-      cboAtividadePrincipal.ItemIndex  := cboAtividadePrincipal.ITEMS.IndexOf(IntToStr(gFornecedor.Model.ATIVIDADE_PRINCIPAL));
 
       cdsMain.Edit;
-      cdsMain.FieldByName('Atividade_Principal').AsInteger := StrToInt(cboAtividadePrincipal.Text);
+      cdsMain.FieldByName('Atividade_Principal').AsInteger := Model.ATIVIDADE_PRINCIPAL;
       cdsMain.FieldByName('NATUREZA_JURIDICA').AsString   := (dbeNatureza.Text);
       cdsMain.FieldByName('UF').AsString                  := (cboUF.Text);
       cdsMain.FieldByName('DATA_SITUACAO').AsDateTime     := dteSituacao.Date;
       cdsMain.Post;
+
+      dteSituacao.Date                 := gFornecedor.Model.DATA_SITUACAO;
+      cboUF.ItemIndex                  := cboUF.ITEMS.IndexOf(gFornecedor.Model.UF);
+
+      cboAtividadePrincipal.ItemIndex  := cboAtividadePrincipal.ITEMS.IndexOf((FormatMaskText('9999\-9/99;0;_', Format('%7.7d', [(gFornecedor.Model.ATIVIDADE_PRINCIPAL)]))));
+      cboAtividadePrincipalChange(cboAtividadePrincipal);
 
       btnSave.Visible      := False;
       btnConsultar.Visible := False;
@@ -344,7 +349,7 @@ begin
     end;
 
     cboAtividadePrincipal.ItemIndex := 0;
-    cboUF.ItemIndex := 0;
+    cboUF.ItemIndex                 := 0;
   finally
     FreeAndNil(CNAE);
     FreeAndNil(UF);
